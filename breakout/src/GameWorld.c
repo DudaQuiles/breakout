@@ -213,15 +213,23 @@ void resolverColisaoBolinhaAlvos(Bolinha *b, Jogador *j, Alvo *alvos, int quanti
 }
 
 void desenharEstado(Jogador *j){
-    if(j->estado == 0 && pontuacao != 0){
+    if(j->estado == 0 && j->pontuacao != 0){
         int tamanhoFonte = 20;
         const char *textoPerdeVida = TextFormat("Aperte as setas para continuar");
         int t = MeasureText(textoPerdeVida,tamanhoFonte);
         DrawText(textoPerdeVida, GetScreenWidth()-t-132, GetScreenHeight() / 2, tamanhoFonte, WHITE);
-        DrawRectangle(100, GetScreenHeight() - 200, 50, 50, WHITE);
-        DrawRectangle(200, GetScreenHeight() - 200, 50, 50, WHITE);
-        DrawLine(90, GetScreenHeight() - 175, 125, GetScreenHeight() - 190, WHITE);
-        DrawLine(90, GetScreenHeight() - 175, 125, GetScreenHeight() - 160, WHITE);
+        DrawRectangle(150, GetScreenHeight() / 2 + 100, 100, 100, WHITE);
+        DrawRectangle(350, GetScreenHeight() / 2 + 100, 100, 100, WHITE);
+        Vector2 posicaoEsquerdaInicial = {170, GetScreenHeight() / 2 + 150};
+        Vector2 posicaoEsquerdaCima = {200, GetScreenHeight() / 2 + 120};
+        DrawLineEx(posicaoEsquerdaInicial, posicaoEsquerdaCima, 6, BLACK);
+        Vector2 posicaoDireitaInicial = {430, GetScreenHeight() / 2 + 150};
+        Vector2 posicaoDireitaCima = {400, GetScreenHeight() / 2 + 120};
+        DrawLineEx(posicaoDireitaInicial, posicaoDireitaCima, 6, BLACK);
+        Vector2 posicaoEsquerdaBaixo = {200, GetScreenHeight() / 2 + 180};
+        Vector2 posicaoDireitaBaixo = {400, GetScreenHeight() / 2 + 180};
+        DrawLineEx(posicaoEsquerdaInicial, posicaoEsquerdaBaixo, 6, BLACK);
+        DrawLineEx(posicaoDireitaInicial, posicaoDireitaBaixo, 6, BLACK);
     }
 }
 

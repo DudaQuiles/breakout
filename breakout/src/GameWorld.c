@@ -145,17 +145,17 @@ void destroyGameWorld(GameWorld *gw){
  * @brief Reads user input and updates the state of the game.
  */
 void updateGameWorld(GameWorld *gw, float delta){
-    if (!IsMusicStreamPlaying( rm.musicExample)){
-            PlayMusicStream( rm.musicExample);
-        }else{
-            UpdateMusicStream( rm.musicExample);
-    }
     if (gw->jogador.vida == 0 || gw->jogador.pontuacao == 90){
         gw->jogador.estado = 2; // estado 2: final do jogo
         gameOver(&gw->jogador, gw->alvos, gw->lin, gw->col);
     }else if (gw->jogador.estado == 0){
         jogoPausado(&gw->bolinha,&gw->jogador);
     }else{
+        if (!IsMusicStreamPlaying( rm.musicExample)){
+            PlayMusicStream( rm.musicExample);
+        }else{
+            UpdateMusicStream( rm.musicExample);
+        }
         entradaJogador( &gw->jogador );
         atualizarJogador( &gw->jogador, delta );
         atualizarBolinha( &gw->bolinha, &gw->jogador, delta );

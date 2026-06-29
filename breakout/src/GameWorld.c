@@ -154,6 +154,7 @@ void drawGameWorld(GameWorld *gw){
     desenharBolinha(&gw->bolinha);
     desenharAlvos(gw->alvos, gw->lin * gw->col);
     desenharVidaPlacar(&gw->jogador);
+    desenharEstado(&gw->jogador);
 
     EndDrawing();
 
@@ -213,21 +214,23 @@ void resolverColisaoBolinhaAlvos(Bolinha *b, Jogador *j, Alvo *alvos, int quanti
 
 void desenharEstado(Jogador *j){
     if(j->estado == 0){
-        int tamanhoFonte = 40;
-        DrawText("Aperte para continuar", GetScreenWidth() / 2, GetScreenHeight() / 2, tamanhoFonte, WHITE);
+        int tamanhoFonte = 20;
+        const char *textoPerdeVida = TextFormat("Aperte as setas para continuar");
+        int t = MeasureText(textoPerdeVida,tamanhoFonte);
+        DrawText(textoPerdeVida, GetScreenWidth()-t-132, GetScreenHeight() / 2, tamanhoFonte, WHITE);
+        DrawLine(50, GetScreenHeight() - 100, 100, GetScreenHeight() - 100, WHITE);
     }
 }
 
 void gameOver(Jogador *j){
-    int tamanhoFonte = 40;
-    const char *textoOver = TextFormat("Você perdeu, aperte espaço para tentar de novo: ");
+    int tamanhoFonte = 20;
+    const char *textoOver = TextFormat("Você perdeu, aperte espaço para tentar de novo:");
     int t = MeasureText(textoOver,tamanhoFonte);
-    DrawText(textoOver, GetScreenWidth()-t-10, GetScreenHeight() / 2, tamanhoFonte, WHITE);
+    DrawText(textoOver, GetScreenWidth()-t-30, GetScreenHeight() / 2, tamanhoFonte, WHITE);
     if( IsKeyPressed(KEY_SPACE)){
         j->vida = 3;
         j->pontuacao = 0;
         j->estado = 0;
-
     }
 }
 void resolverColisaoBolaJogador( Bolinha *b, Jogador *j ) {

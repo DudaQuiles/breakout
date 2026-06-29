@@ -27,12 +27,11 @@
  */
 void resolverColisaoBolinhaAlvos(Bolinha *b, Jogador *j, Alvo *alvos, int quantidade);
 void resolverColisaoBolaJogador( Bolinha *b, Jogador *j );
-void desenharEstado(int estado);
+void desenharEstado(Jogador *j);
 void jogoPausado(Bolinha *b);
 void gameOver(Jogador *j);
 void gameWin(void);
 int pontuacao = 0;
-int estado = 0;
 
 /**
  * @brief Creates a dinamically allocated GameWorld struct instance.
@@ -130,7 +129,7 @@ void destroyGameWorld(GameWorld *gw){
  * @brief Reads user input and updates the state of the game.
  */
 void updateGameWorld(GameWorld *gw, float delta){
-    if (estado == 0){
+    if (gw->jogador.estado == 0){
         jogoPausado(&gw->bolinha);
     }else if (gw->jogador.vida == 0){
         gameOver(&gw->jogador);
@@ -213,9 +212,9 @@ void resolverColisaoBolinhaAlvos(Bolinha *b, Jogador *j, Alvo *alvos, int quanti
 
 }
 
-void desenharEstado(int estado){
-    if(estado == 0){
-        int tamanhoFonte = 50;
+void desenharEstado(Jogador *j){
+    if(j->estado == 0){
+        int tamanhoFonte = 40;
         DrawText("Aperte para continuar", GetScreenWidth() / 2, GetScreenHeight() / 2, tamanhoFonte, WHITE);
     }
 }
@@ -228,7 +227,7 @@ void gameOver(Jogador *j){
     if( IsKeyPressed(KEY_SPACE)){
         j->vida = 3;
         j->pontuacao = 0;
-        estado = 0;
+        j->estado = 0;
 
     }
 }
@@ -243,12 +242,11 @@ void jogoPausado(Bolinha *b){
     if(IsKeyPressed(KEY_LEFT)){
         b->vel.x = -200;
         b->vel.y = -200;
-        estado = 1;
+        j->estado = 1;
     }
     if (IsKeyPressed(KEY_RIGHT)){
         b->vel.x = 200;
         b->vel.y = -200;
-        estado = 1;
+        j->estado = 1;
     }
 }
-//commit

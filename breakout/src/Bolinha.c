@@ -6,7 +6,7 @@
  * Atualiza a posição da bolinha na tela e resolve a colisão da mesma com as
  * extremidades da janela.
  */
-void atualizarBolinha(Bolinha *bolinha, Jogador *jogador, float delta){
+void atualizarBolinha(Bolinha *bolinha, Jogador *j, float delta){
 
     // integração de Euler
     bolinha->centro.x += bolinha->vel.x * delta;

@@ -30,7 +30,7 @@ void resolverColisaoBolaJogador( Bolinha *b, Jogador *j );
 void desenharVidaPlacar(Jogador *j);
 void jogoPausado(Bolinha *b);
 int pontuacao = 0;
-int estado = 0
+int estado = 0;
 
 /**
  * @brief Creates a dinamically allocated GameWorld struct instance.
@@ -133,7 +133,7 @@ void updateGameWorld(GameWorld *gw, float delta){
     }else{
         entradaJogador( &gw->jogador );
         atualizarJogador( &gw->jogador, delta );
-        atualizarBolinha( &gw->bolinha, gw->jogador, delta );
+        atualizarBolinha( &gw->bolinha, &gw->jogador, delta );
         resolverColisaoBolinhaAlvos( &gw->bolinha, &gw->jogador, gw->alvos, gw->lin * gw->col );
         resolverColisaoBolaJogador( &gw->bolinha, &gw->jogador );
     }
@@ -213,8 +213,9 @@ void desenharVidaPlacar(Jogador *j){
 
     const char *textoVida = TextFormat("Vida: %d", j->vida);
     const char *textoPontuacao = TextFormat("Pontuacao: %d", j->pontuacao);
+    int t = MeasureText(textoPontuacao,tamanhoFonte);
 
-    DrawText(textoPontuacao, 500, 20, tamanhoFonte, j->cor);
+    DrawText(textoPontuacao, GetScreenWidth()-t-10, 20, tamanhoFonte, j->cor);
     DrawText(textoVida, 20, 20, tamanhoFonte, j->cor);
 }
 
@@ -222,7 +223,7 @@ void resolverColisaoBolaJogador( Bolinha *b, Jogador *j ) {
 
     if ( CheckCollisionCircleRec( b->centro, b->raio, j->ret ) ) {
         b->centro.y = j->ret.y - b->raio;
-        b->vel.y = -b->vel.y
+        b->vel.y = -b->vel.y;
     }
 }
 

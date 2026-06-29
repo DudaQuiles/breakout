@@ -213,20 +213,30 @@ void resolverColisaoBolinhaAlvos(Bolinha *b, Jogador *j, Alvo *alvos, int quanti
 }
 
 void desenharEstado(Jogador *j){
-    if(j->estado == 0){
+    if(j->estado == 0 && pontuacao != 0){
         int tamanhoFonte = 20;
         const char *textoPerdeVida = TextFormat("Aperte as setas para continuar");
         int t = MeasureText(textoPerdeVida,tamanhoFonte);
         DrawText(textoPerdeVida, GetScreenWidth()-t-132, GetScreenHeight() / 2, tamanhoFonte, WHITE);
-        DrawLine(50, GetScreenHeight() - 100, 100, GetScreenHeight() - 100, WHITE);
+        DrawRectangle(100, GetScreenHeight() - 200, 50, 50, WHITE);
+        DrawRectangle(200, GetScreenHeight() - 200, 50, 50, WHITE);
+        DrawLine(90, GetScreenHeight() - 175, 125, GetScreenHeight() - 190, WHITE);
+        DrawLine(90, GetScreenHeight() - 175, 125, GetScreenHeight() - 160, WHITE);
     }
 }
 
 void gameOver(Jogador *j){
     int tamanhoFonte = 20;
-    const char *textoOver = TextFormat("Você perdeu, aperte espaço para tentar de novo:");
-    int t = MeasureText(textoOver,tamanhoFonte);
-    DrawText(textoOver, GetScreenWidth()-t-30, GetScreenHeight() / 2, tamanhoFonte, WHITE);
+    if(j->vida == 0){
+        const char *textoPerdeu = TextFormat("Você perdeu, aperte espaço para tentar de novo:");
+        int t = MeasureText(textoPerdeu,tamanhoFonte);
+        DrawText(textoPerdeu, GetScreenWidth()-t-30, GetScreenHeight() / 2, tamanhoFonte, WHITE);
+    }else{
+        const char *textoGanhou = TextFormat("Você venceu! Aperte espaço para jogar de novo:");
+        int t = MeasureText(textoGanhou,tamanhoFonte);
+        DrawText(textoGanhou, GetScreenWidth()-t-30, GetScreenHeight() / 2, tamanhoFonte, WHITE);
+    }
+
     if( IsKeyPressed(KEY_SPACE)){
         j->vida = 3;
         j->pontuacao = 0;

@@ -17,7 +17,7 @@ ResourceManager rm = { 0 };
 void loadResourcesResourceManager( void ) {
     rm.textureExample = LoadTexture( "resources/images/mario.png" );
     rm.soundExample = LoadSound( "resources/sfx/powerUp.wav" );
-    rm.musicExample = LoadMusicStream( "resources/musics/fcc-retro-arcade-game-music-297305.mp3" );
+    rm.musicExample = LoadMusicStream( "resources/musics/musica.mp3" );
 }
 
 void unloadResourcesResourceManager( void ) {

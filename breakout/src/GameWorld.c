@@ -283,6 +283,7 @@ void resolverColisaoBolaJogador( Bolinha *b, Jogador *j ) {
     }
 }
 void jogoPausado(Bolinha *b, Jogador *j){
+    j->ret.x = GetScreenWidth() / 2 - larguraJogador / 2;
     if(IsKeyPressed(KEY_LEFT)){
         b->vel.x = -200;
         b->vel.y = -200;

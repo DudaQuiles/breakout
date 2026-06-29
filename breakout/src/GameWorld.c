@@ -251,3 +251,4 @@ void jogoPausado(Bolinha *b){
         estado = 1;
     }
 }
+//commit

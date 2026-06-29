@@ -17,6 +17,7 @@
 
 #include "Bolinha.h"
 #include "GameWorld.h"
+#include "GameWindow.h"
 #include "Jogador.h"
 #include "ResourceManager.h"
 
@@ -30,6 +31,7 @@ void resolverColisaoBolaJogador( Bolinha *b, Jogador *j );
 void desenharEstado(Jogador *j);
 void jogoPausado(Bolinha *b, Jogador *j);
 void gameOver(Jogador *j);
+void setarAlvos( GameWorld *gw );
 
 /**
  * @brief Creates a dinamically allocated GameWorld struct instance.
@@ -66,67 +68,7 @@ GameWorld *createGameWorld(void){
         .cor = WHITE
     };
 
-    gw->lin = 10;
-    gw->col = 6;
-
-    // cria um array de alvos de lin * col (nesse caso, 60 alvos)
-    gw->alvos = (Alvo*) malloc(sizeof(Alvo) * gw->lin * gw->col);
-
-    Color coresAlvos[] = {
-        { 100, 200, 50, 255 },     // { vermelho, verde, azul, alpha }
-        GetColor( 0x0099CCFF ), // GetColor( cor em hexadecimal )
-        YELLOW,                   // constante para cor
-        ORANGE,
-        RED,
-        PINK,
-        PURPLE,
-        BLUE,
-        GREEN,
-        DARKGREEN
-    };
-
-    int larguraAlvo = 80;
-    int alturaAlvo = 20;
-    int espaco = 5;
-    int larguraTotal = larguraAlvo * gw->col + espaco * ( gw->col - 1 );
-    int xIni = GetScreenWidth() / 2 - larguraTotal / 2;
-    int yIni = 150;
-
-    for (int i = 0; i < gw->lin; i++){
-        for (int j = 0; j < gw->col; j++){
-
-            // calculo da posição linear de um elemento da grade linhas x colunas
-            // dentro do array de alvos
-            int p = i * gw->col + j;
-
-            if (i < 5){
-                gw->alvos[p] = (Alvo){
-                .ret = {
-                    .x = xIni + j * ( larguraAlvo + espaco ), // cálculo da posição horizontal (depende da coluna atual)
-                    .y = yIni + i * ( alturaAlvo + espaco ),  // cálculo da posição vertical (depende da linha atual)
-                    .width = larguraAlvo,
-                    .height = alturaAlvo,
-                },
-                .cor = coresAlvos[i], // cuidado aqui...
-                .hp = 2,
-                .pontuacao = 2
-                };
-            }else{
-                gw->alvos[p] = (Alvo){
-                .ret = {
-                    .x = xIni + j * ( larguraAlvo + espaco ), // cálculo da posição horizontal (depende da coluna atual)
-                    .y = yIni + i * ( alturaAlvo + espaco ),  // cálculo da posição vertical (depende da linha atual)
-                    .width = larguraAlvo,
-                    .height = alturaAlvo,
-                },
-                .cor = coresAlvos[i], // cuidado aqui...
-                .hp = 1,
-                .pontuacao = 1
-                };
-            }
-
-        }
-    }
+    setarAlvos( gameWindow->gw )
 
     return gw;
 
@@ -143,8 +85,8 @@ void destroyGameWorld(GameWorld *gw){
  * @brief Reads user input and updates the state of the game.
  */
 void updateGameWorld(GameWorld *gw, float delta){
-    if (gw->jogador.vida == 0 || gw->jogador.pontuacao == 1000){
-        gw->jogador.estado = 2;
+    if (gw->jogador.vida == 0 || gw->jogador.pontuacao == 90){
+        gw->jogador.estado = 2; // estado 2: final do jogo
         gameOver(&gw->jogador);
     }else if (gw->jogador.estado == 0){
         jogoPausado(&gw->bolinha,&gw->jogador);
@@ -258,6 +200,7 @@ void desenharEstado(Jogador *j){
 }
 
 void gameOver(Jogador *j){
+    j->ret.x = GetScreenWidth() / 2;
     int tamanhoFonte = 20;
     if(j->vida == 0){
         const char *textoPerdeu = TextFormat("Você perdeu, aperte espaço para tentar de novo:");
@@ -273,6 +216,7 @@ void gameOver(Jogador *j){
         j->vida = 3;
         j->pontuacao = 0;
         j->estado = 0;
+        setarAlvos( gameWindow->gw );
     }
 }
 void resolverColisaoBolaJogador( Bolinha *b, Jogador *j ) {
@@ -293,5 +237,69 @@ void jogoPausado(Bolinha *b, Jogador *j){
         b->vel.x = 200;
         b->vel.y = -200;
         j->estado = 1;
+    }
+}
+
+void setarAlvos( GameWorld *gw ){
+    &gw->lin = 10;
+    &gw->col = 6;
+
+    // cria um array de alvos de lin * col (nesse caso, 60 alvos)
+    &gw->alvos = (Alvo*) malloc(sizeof(Alvo) * gw->lin * gw->col);
+
+    &Color coresAlvos[] = {
+        { 100, 200, 50, 255 },     // { vermelho, verde, azul, alpha }
+        GetColor( 0x0099CCFF ), // GetColor( cor em hexadecimal )
+        YELLOW,                   // constante para cor
+        ORANGE,
+        RED,
+        PINK,
+        PURPLE,
+        BLUE,
+        GREEN,
+        DARKGREEN
+    };
+
+    int larguraAlvo = 80;
+    int alturaAlvo = 20;
+    int espaco = 5;
+    int larguraTotal = larguraAlvo * gw->col + espaco * ( gw->col - 1 );
+    int xIni = GetScreenWidth() / 2 - larguraTotal / 2;
+    int yIni = 150;
+
+    for (int i = 0; i < &gw->lin; i++){
+        for (int j = 0; j < &gw->col; j++){
+
+            // calculo da posição linear de um elemento da grade linhas x colunas
+            // dentro do array de alvos
+            int p = i * &gw->col + j;
+
+            if (i < 5){
+                &gw->alvos[p] = (Alvo){
+                .ret = {
+                    .x = xIni + j * ( larguraAlvo + espaco ), // cálculo da posição horizontal (depende da coluna atual)
+                    .y = yIni + i * ( alturaAlvo + espaco ),  // cálculo da posição vertical (depende da linha atual)
+                    .width = larguraAlvo,
+                    .height = alturaAlvo,
+                },
+                .cor = coresAlvos[i], // cuidado aqui...
+                .hp = 2,
+                .pontuacao = 2
+                };
+            }else{
+                &gw->alvos[p] = (Alvo){
+                .ret = {
+                    .x = xIni + j * ( larguraAlvo + espaco ), // cálculo da posição horizontal (depende da coluna atual)
+                    .y = yIni + i * ( alturaAlvo + espaco ),  // cálculo da posição vertical (depende da linha atual)
+                    .width = larguraAlvo,
+                    .height = alturaAlvo,
+                },
+                .cor = coresAlvos[i], // cuidado aqui...
+                .hp = 1,
+                .pontuacao = 1
+                };
+            }
+
+        }
     }
 }

@@ -68,7 +68,7 @@ GameWorld *createGameWorld(void){
         .cor = WHITE
     };
 
-    setarAlvos( gameWindow->gw )
+    setarAlvos( GameWindow->gw );
 
     return gw;
 
@@ -216,7 +216,7 @@ void gameOver(Jogador *j){
         j->vida = 3;
         j->pontuacao = 0;
         j->estado = 0;
-        setarAlvos( gameWindow->gw );
+        setarAlvos( GameWindow->gw );
     }
 }
 void resolverColisaoBolaJogador( Bolinha *b, Jogador *j ) {

@@ -75,13 +75,13 @@ GameWorld *createGameWorld(void){
     Color coresAlvos[] = {
         { 100, 200, 50, 255 },     // { vermelho, verde, azul, alpha }
         GetColor( 0x0099CCFF ), // GetColor( cor em hexadecimal )
-        BLUE,                   // constante para cor
-        GREEN,
+        YELLOW,                   // constante para cor
         ORANGE,
         RED,
-        WHITE,
+        PINK,
         PURPLE,
-        YELLOW,
+        BLUE,
+        GREEN,
         DARKGREEN
     };
 
@@ -128,9 +128,9 @@ void destroyGameWorld(GameWorld *gw){
  * @brief Reads user input and updates the state of the game.
  */
 void updateGameWorld(GameWorld *gw, float delta){
-    if (&gw->jogador.vida == 0 || &gw->jogador.pontuacao == 60){
+    if (gw->jogador.vida == 0 || gw->jogador.pontuacao == 60){
         gameOver(&gw->jogador);
-    }else if (&gw->jogador.estado == 0){
+    }else if (gw->jogador.estado == 0){
         jogoPausado(&gw->bolinha,&gw->jogador);
     }else{
         entradaJogador( &gw->jogador );

@@ -181,58 +181,6 @@ void drawGameWorld(GameWorld *gw){
 
 }
 
-void resolverColisaoBolinhaAlvos(Bolinha *b, Jogador *j, Alvo *alvos, int quantidade){
-
-    for (int i = 0; i < quantidade; i++){
-
-        // para cada alvo
-        Alvo *alvo = &alvos[i];
-
-        // verifica se ainda tem vida (hp > 0) e se a bolinha colidiu com seu retângulo
-        if (alvo->hp > 0 && CheckCollisionCircleRec(b->centro, b->raio, alvo->ret)){
-
-            // perde um ponto de vida
-            alvo->hp--;
-            j->pontuacao += alvos[i].pontuacao;
-
-            // reposicionamento e espelhamento apropriado da velocidade da bolinha
-            
-            // coordenada do centro do alvo
-            float centroAlvoX = alvo->ret.x + alvo->ret.width  / 2.0f;
-            float centroAlvoY = alvo->ret.y + alvo->ret.height / 2.0f;
-
-            // calcula a sobreposição (penetração) da bolinha em cada eixo
-            // o menor overlap indica por qual face a bolinha entrou de fato
-            float overlapX = (b->raio + alvo->ret.width  / 2.0f) - fabs(b->centro.x - centroAlvoX);
-            float overlapY = (b->raio + alvo->ret.height / 2.0f) - fabs(b->centro.y - centroAlvoY);
-
-            if (overlapX < overlapY){
-
-                // colisão lateral (esquerda ou direita): empurra em X e espelha vel.x
-                if (b->centro.x < centroAlvoX){
-                    b->centro.x = alvo->ret.x - b->raio;                    // sai pela esquerda
-                } else{
-                    b->centro.x = alvo->ret.x + alvo->ret.width + b->raio;  // sai pela direita
-                }
-                b->vel.x = -b->vel.x;
-
-            } else{
-
-                // colisão topo/base: empurra em Y e espelha vel.y
-                if ( b->centro.y < centroAlvoY ) {
-                    b->centro.y = alvo->ret.y - b->raio;                     // sai por cima
-                } else {
-                    b->centro.y = alvo->ret.y + alvo->ret.height + b->raio;  // sai por baixo
-                }
-                b->vel.y = -b->vel.y;
-
-            }
-
-        }
-    }
-
-}
-
 void desenharEstado(Jogador *j){
     if(j->estado == 0 ){
         if(j->pontuacao != 0){
@@ -282,13 +230,7 @@ void gameOver(Jogador *j, Alvo *alvos, int lin, int col){
         resetarAlvos(alvos, lin, col);
     }
 }
-void resolverColisaoBolaJogador( Bolinha *b, Jogador *j ) {
 
-    if ( CheckCollisionCircleRec( b->centro, b->raio, j->ret ) ) {
-        b->centro.y = j->ret.y - b->raio;
-        b->vel.y = -b->vel.y;
-    }
-}
 void jogoPausado(Bolinha *b, Jogador *j){
     j->ret.x = GetScreenWidth() / 2 - j->ret.width / 2;
     if(IsKeyPressed(KEY_LEFT)){
@@ -311,6 +253,64 @@ void resetarAlvos(Alvo *alvos, int lin, int col){
                 alvos[p].hp = 2;
             }else{
                 alvos[p].hp = 1;
+            }
+        }
+    }
+}
+
+void resolverColisaoBolaJogador( Bolinha *b, Jogador *j ) {
+
+    if ( CheckCollisionCircleRec( b->centro, b->raio, j->ret ) ) {
+        b->centro.y = j->ret.y - b->raio;
+        b->vel.y = -b->vel.y;
+    }
+}
+
+void resolverColisaoBolinhaAlvos(Bolinha *b, Jogador *j, Alvo *alvos, int quantidade){
+
+    for (int i = 0; i < quantidade; i++){
+
+        // para cada alvo
+        Alvo *alvo = &alvos[i];
+
+        // verifica se ainda tem vida (hp > 0) e se a bolinha colidiu com seu retângulo
+        if (alvo->hp > 0 && CheckCollisionCircleRec(b->centro, b->raio, alvo->ret)){
+
+            // perde um ponto de vida
+            alvo->hp--;
+            j->pontuacao += alvos[i].pontuacao;
+
+            // reposicionamento e espelhamento apropriado da velocidade da bolinha
+            
+            // coordenada do centro do alvo
+            float centroAlvoX = alvo->ret.x + alvo->ret.width  / 2.0f;
+            float centroAlvoY = alvo->ret.y + alvo->ret.height / 2.0f;
+
+            // calcula a sobreposição (penetração) da bolinha em cada eixo
+            // o menor overlap indica por qual face a bolinha entrou de fato
+            float overlapX = (b->raio + alvo->ret.width  / 2.0f) - fabs(b->centro.x - centroAlvoX);
+            float overlapY = (b->raio + alvo->ret.height / 2.0f) - fabs(b->centro.y - centroAlvoY);
+
+            if (overlapX < overlapY){
+
+                // colisão lateral (esquerda ou direita): empurra em X e espelha vel.x
+                if (b->centro.x < centroAlvoX){
+                    b->centro.x = alvo->ret.x - b->raio;                    // sai pela esquerda
+                } else{
+                    b->centro.x = alvo->ret.x + alvo->ret.width + b->raio;  // sai pela direita
+                }
+                b->vel.x = -b->vel.x;
+
+            } else{
+
+                // colisão topo/base: empurra em Y e espelha vel.y
+                if ( b->centro.y < centroAlvoY ) {
+                    b->centro.y = alvo->ret.y - b->raio;                     // sai por cima
+                } else {
+                    b->centro.y = alvo->ret.y + alvo->ret.height + b->raio;  // sai por baixo
+                }
+                b->vel.y = -b->vel.y;
+
             }
         }
     }

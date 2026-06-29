@@ -101,7 +101,15 @@ GameWorld *createGameWorld(void){
 
             if (i < 5){
                 gw->alvos[p] = (Alvo){
-                    .hp = 2
+                .ret = {
+                    .x = xIni + j * ( larguraAlvo + espaco ), // cálculo da posição horizontal (depende da coluna atual)
+                    .y = yIni + i * ( alturaAlvo + espaco ),  // cálculo da posição vertical (depende da linha atual)
+                    .width = larguraAlvo,
+                    .height = alturaAlvo,
+                },
+                .cor = coresAlvos[i], // cuidado aqui...
+                .hp = 2,
+                .pontuacao = 2
                 };
             }else{
                 gw->alvos[p] = (Alvo){
@@ -113,7 +121,7 @@ GameWorld *createGameWorld(void){
                 },
                 .cor = coresAlvos[i], // cuidado aqui...
                 .hp = 1,
-                .pontuacao = 10 - p
+                .pontuacao = 1
                 };
             }
 

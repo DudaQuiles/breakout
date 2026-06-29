@@ -70,9 +70,8 @@ void resolverColisaoBolaJogador( Bolinha *b, Jogador *j ) {
 
 void gameOver(Jogador *j){
     int tamanhoFonte = 40;
-    const char *textoOver = TextFormat("Você perdeu, aperte espaço para tentar de novo: ");
     int t = MeasureText(textoOver,tamanhoFonte);
-    DrawText(textoOver, GetScreenWidth()-t-10, GetScreenHeight() / 2, tamanhoFonte, WHITE);
+    DrawText("Você perdeu, aperte espaço para tentar de novo", GetScreenWidth()-t-10, GetScreenHeight() / 2, tamanhoFonte, WHITE);
     if( IsKeyPressed(KEY_SPACE)){
         j->vida = 3;
         j->pontuacao = 0;

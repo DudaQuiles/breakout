@@ -218,7 +218,7 @@ void desenharVidaPlacar(Jogador *j){
     DrawText(textoVida, 20, 20, tamanhoFonte, j->cor);
 }
 
-void resolverColisaoBolaJogador( Bola *b, Jogador *j ) {
+void resolverColisaoBolaJogador( Bolinha *b, Jogador *j ) {
 
     if ( CheckCollisionCircleRec( b->centro, b->raio, j->ret ) ) {
         b->centro.y = j->ret.y - b->raio;

@@ -12,6 +12,7 @@ typedef struct Alvo {
     Rectangle ret;
     Color cor;        
     int hp;           // health points (pontos de vida)
+    int pontuacao;
 } Alvo;
 
 void desenharAlvo( Alvo *alvo );

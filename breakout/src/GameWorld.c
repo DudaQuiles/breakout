@@ -180,7 +180,7 @@ void resolverColisaoBolinhaAlvos(Bolinha *b, Jogador *j, Alvo *alvos, int quanti
 
             // perde um ponto de vida
             alvo->hp--;
-            j->pontuacao += alvos[i]->pontuacao;
+            j->pontuacao += alvos[i].pontuacao;
 
             // reposicionamento e espelhamento apropriado da velocidade da bolinha
             

@@ -26,6 +26,7 @@
  * perde um ponto de hp e o jogador deve ganhar alguma quantidade de pontos.
  */
 void resolverColisaoBolinhaAlvos(Bolinha *b, Jogador *j, Alvo *alvos, int quantidade);
+void resolverColisaoBolaJogador( Bolinha *b, Jogador *j );
 void desenharPontuacao(int pontuacao);
 void desenharVidaPlacar(Jogador *j);
 int pontuacao = 0;
@@ -202,11 +203,19 @@ void resolverColisaoBolinhaAlvos(Bolinha *b, Jogador *j, Alvo *alvos, int quanti
 
 }
 void desenharVidaPlacar(Jogador *j){
-    int tamanhoFonte = 60;
+    int tamanhoFonte = 50;
 
-    const char *textoVida = TextFormat("%d", j->vida);
-    const char *textoPontuacao = TextFormat("%d", j->pontuacao);
+    const char *textoVida = TextFormat("Vida: %d", j->vida);
+    const char *textoPontuacao = TextFormat("Pontuacao: %d", j->pontuacao);
 
     DrawText(textoPontuacao, 500, 20, tamanhoFonte, j->cor);
     DrawText(textoVida, 20, 20, tamanhoFonte, j->cor);
+}
+
+void resolverColisaoBolaJogador( Bola *b, Jogador *j ) {
+
+    if ( CheckCollisionCircleRec( b->centro, b->raio, j->ret ) ) {
+        b->centro.y = j->ret.y - b->raio;
+        b->vel.y = -b->vel.y
+    }
 }

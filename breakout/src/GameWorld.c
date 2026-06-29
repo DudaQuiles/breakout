@@ -208,15 +208,15 @@ void desenharVidaPlacar(Jogador *j){
 
     const char *textoVida = TextFormat("Vida: %d", j->vida);
     const char *textoPontuacao = TextFormat("Pontuacao: %d", j->pontuacao);
-
-    DrawText(textoPontuacao, 500, 20, tamanhoFonte, j->cor);
+    int t = MeasureText(textoPontuacao,tamanhoFonte);
+    DrawText(textoPontuacao, GetScreenWidth()-t-10, 20, tamanhoFonte, j->cor);
     DrawText(textoVida, 20, 20, tamanhoFonte, j->cor);
 }
 
-void resolverColisaoBolaJogador( Bola *b, Jogador *j ) {
+void resolverColisaoBolaJogador( Bolinha *b, Jogador *j ) {
 
     if ( CheckCollisionCircleRec( b->centro, b->raio, j->ret ) ) {
         b->centro.y = j->ret.y - b->raio;
-        b->vel.y = -b->vel.y
+        b->vel.y = -b->vel.y;
     }
 }

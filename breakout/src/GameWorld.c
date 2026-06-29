@@ -99,7 +99,12 @@ GameWorld *createGameWorld(void){
             // dentro do array de alvos
             int p = i * gw->col + j;
 
-            gw->alvos[p] = (Alvo){
+            if (i < 5){
+                gw->alvos[p] = (Alvo){
+                    .hp = 2
+                };
+            }else{
+                gw->alvos[p] = (Alvo){
                 .ret = {
                     .x = xIni + j * ( larguraAlvo + espaco ), // cálculo da posição horizontal (depende da coluna atual)
                     .y = yIni + i * ( alturaAlvo + espaco ),  // cálculo da posição vertical (depende da linha atual)
@@ -107,8 +112,10 @@ GameWorld *createGameWorld(void){
                     .height = alturaAlvo,
                 },
                 .cor = coresAlvos[i], // cuidado aqui...
-                .hp = 1
-            };
+                .hp = 1,
+                .pontuacao = 10 - p
+                };
+            }
 
         }
     }
@@ -173,8 +180,7 @@ void resolverColisaoBolinhaAlvos(Bolinha *b, Jogador *j, Alvo *alvos, int quanti
 
             // perde um ponto de vida
             alvo->hp--;
-            int p = i * gw->col;
-            j->pontuacao = 10 - p; 
+            j->pontuacao += alvos[i]->pontuacao;
 
             // reposicionamento e espelhamento apropriado da velocidade da bolinha
             

@@ -214,7 +214,7 @@ void resolverColisaoBolinhaAlvos(Bolinha *b, Jogador *j, Alvo *alvos, int quanti
 
 void desenharEstado(int estado){
     if(estado == 0){
-        int tamanhoFonte = 40;
+        int tamanhoFonte = 50;
         DrawText("Aperte para continuar", GetScreenWidth() / 2, GetScreenHeight() / 2, tamanhoFonte, WHITE);
     }
 }
@@ -228,5 +228,6 @@ void gameOver(Jogador *j){
         j->vida = 3;
         j->pontuacao = 0;
         estado = 0;
+
     }
 }

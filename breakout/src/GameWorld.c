@@ -30,7 +30,8 @@ void resolverColisaoBolinhaAlvos(Bolinha *b, Jogador *j, Alvo *alvos, int quanti
 void resolverColisaoBolaJogador( Bolinha *b, Jogador *j );
 void desenharEstado(Jogador *j);
 void jogoPausado(Bolinha *b, Jogador *j);
-void gameOver(Jogador *j);
+void gameOver(Jogador j, Alvo alvos, int lin, int col);
+void resetarAlvos(Alvo *alvos, int lin, int col);
 
 /**
  * @brief Creates a dinamically allocated GameWorld struct instance.
@@ -146,7 +147,8 @@ void destroyGameWorld(GameWorld *gw){
 void updateGameWorld(GameWorld *gw, float delta){
     if (gw->jogador.vida == 0 || gw->jogador.pontuacao == 90){
         gw->jogador.estado = 2; // estado 2: final do jogo
-        gameOver(&gw->jogador);
+        gameOver(&gw->jogador, gw->alvos, gw->lin, gw->col);
+    }
     }else if (gw->jogador.estado == 0){
         jogoPausado(&gw->bolinha,&gw->jogador);
     }else{
@@ -258,15 +260,15 @@ void desenharEstado(Jogador *j){
     }
 }
 
-void gameOver(Jogador *j){
+void gameOver(Jogador j, Alvoalvos, int lin, int col){
     j->ret.x = GetScreenWidth() / 2;
     int tamanhoFonte = 20;
     if(j->vida == 0){
-        const char *textoPerdeu = TextFormat("Você perdeu, aperte espaço para tentar de novo:");
+        const char textoPerdeu = TextFormat("Você perdeu, aperte espaço para tentar de novo:");
         int t = MeasureText(textoPerdeu,tamanhoFonte);
         DrawText(textoPerdeu, GetScreenWidth()-t-30, GetScreenHeight() / 2, tamanhoFonte, WHITE);
     }else{
-        const char *textoGanhou = TextFormat("Você venceu! Aperte espaço para jogar de novo:");
+        const chartextoGanhou = TextFormat("Você venceu! Aperte espaço para jogar de novo:");
         int t = MeasureText(textoGanhou,tamanhoFonte);
         DrawText(textoGanhou, GetScreenWidth()-t-30, GetScreenHeight() / 2, tamanhoFonte, WHITE);
     }
@@ -275,7 +277,7 @@ void gameOver(Jogador *j){
         j->vida = 3;
         j->pontuacao = 0;
         j->estado = 0;
-        setarAlvos( GameWindow->gw );
+        resetarAlvos(alvos, lin, col);
     }
 }
 void resolverColisaoBolaJogador( Bolinha *b, Jogador *j ) {
@@ -296,5 +298,18 @@ void jogoPausado(Bolinha *b, Jogador *j){
         b->vel.x = 200;
         b->vel.y = -200;
         j->estado = 1;
+    }
+}
+
+void resetarAlvos(Alvo alvos, int lin, int col){
+    for (int i = 0; i < lin; i++){
+        for (int j = 0; j < col; j++){
+            int p = i col + j;
+            if (i < 5){
+                alvos[p].hp = 2;
+            }else{
+                alvos[p].hp = 1;
+            }
+        }
     }
 }

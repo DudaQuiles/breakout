@@ -131,6 +131,7 @@ void updateGameWorld(GameWorld *gw, float delta){
     atualizarJogador( &gw->jogador, delta );
     atualizarBolinha( &gw->bolinha, delta );
     resolverColisaoBolinhaAlvos( &gw->bolinha, &gw->jogador, gw->alvos, gw->lin * gw->col );
+    resolverColisaoBolaJogador( &gw->bolinha, &gw->jogador );
     
 }
 

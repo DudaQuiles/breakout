@@ -21,4 +21,4 @@ void entradaJogador(Jogador *j);
 void atualizarJogador(Jogador *j, float delta);
 void desenharJogador(Jogador *j);
 void desenharVidaPlacar(Jogador *j);
-
+void gameOver(Jogador *j);

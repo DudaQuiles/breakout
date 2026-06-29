@@ -151,6 +151,11 @@ void updateGameWorld(GameWorld *gw, float delta){
     }else if (gw->jogador.estado == 0){
         jogoPausado(&gw->bolinha,&gw->jogador);
     }else{
+        if(!IsMusicStreamPlaying( rm.musicExample)){
+            PlayMusicStream( rm.musicExample);
+        }else{
+            UptadeMusicStream( rm.musicExample);
+        }
         entradaJogador( &gw->jogador );
         atualizarJogador( &gw->jogador, delta );
         atualizarBolinha( &gw->bolinha, &gw->jogador, delta );

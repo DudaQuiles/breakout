@@ -27,8 +27,9 @@
  */
 void resolverColisaoBolinhaAlvos(Bolinha *b, Jogador *j, Alvo *alvos, int quantidade);
 void resolverColisaoBolaJogador( Bolinha *b, Jogador *j );
-void desenharVidaPlacar(Jogador *j);
-void jogoPausado(Bolinha *b);
+void desenharEstado(int estado);
+void gameOver(Jogador *j);
+void gameWin(void);
 int pontuacao = 0;
 int estado = 0;
 
@@ -130,6 +131,8 @@ void destroyGameWorld(GameWorld *gw){
 void updateGameWorld(GameWorld *gw, float delta){
     if (estado == 0){
         jogoPausado(&gw->bolinha);
+    }else if (&gw->jogador.vida == 0){
+        gameOver(&gw->jogador);
     }else{
         entradaJogador( &gw->jogador );
         atualizarJogador( &gw->jogador, delta );
@@ -208,34 +211,10 @@ void resolverColisaoBolinhaAlvos(Bolinha *b, Jogador *j, Alvo *alvos, int quanti
     }
 
 }
-void desenharVidaPlacar(Jogador *j){
-    int tamanhoFonte = 50;
 
-    const char *textoVida = TextFormat("Vida: %d", j->vida);
-    const char *textoPontuacao = TextFormat("Pontuacao: %d", j->pontuacao);
-    int t = MeasureText(textoPontuacao,tamanhoFonte);
-
-    DrawText(textoPontuacao, GetScreenWidth()-t-10, 20, tamanhoFonte, j->cor);
-    DrawText(textoVida, 20, 20, tamanhoFonte, j->cor);
-}
-
-void resolverColisaoBolaJogador( Bolinha *b, Jogador *j ) {
-
-    if ( CheckCollisionCircleRec( b->centro, b->raio, j->ret ) ) {
-        b->centro.y = j->ret.y - b->raio;
-        b->vel.y = -b->vel.y;
-    }
-}
-
-void jogoPausado(Bolinha *b){
-    if(IsKeyPressed(KEY_LEFT)){
-        b->vel.x = -200;
-        b->vel.y = -200;
-        estado = 1;
-    }
-    if (IsKeyPressed(KEY_RIGHT)){
-        b->vel.x = 200;
-        b->vel.y = -200;
-        estado = 1;
+void desenharEstado(int estado){
+    if(estado == 0){
+        int tamanhoFonte = 40;
+        DrawText("Aperte para continuar", GetScreenWidth() / 2, GetScreenHeight() / 2, tamanhoFonte, WHITE);
     }
 }

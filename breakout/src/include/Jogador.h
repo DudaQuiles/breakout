@@ -15,11 +15,10 @@ typedef struct Jogador{
     Color cor;
     int vida;
     int pontuacao;
-    int estado;
 }Jogador;
 
 void entradaJogador(Jogador *j);
 void atualizarJogador(Jogador *j, float delta);
 void desenharJogador(Jogador *j);
-void atualizarVidaJogador(Jogador *j);
+void desenharVidaPlacar(Jogador *j);
 

@@ -19,3 +19,4 @@ typedef struct Bolinha {
 void atualizarBolinha( Bolinha *bolinha,Jogador *j, float delta );
 void desenharBolinha( Bolinha *bolinha );
 void pausarJogo(Bolinha *bolinha);
+void jogoPausado(Bolinha *b);

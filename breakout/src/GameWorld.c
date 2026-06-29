@@ -30,6 +30,7 @@ void resolverColisaoBolaJogador( Bolinha *b, Jogador *j );
 void desenharVidaPlacar(Jogador *j);
 void jogoPausado(Bolinha *b);
 int pontuacao = 0;
+int estado = 0
 
 /**
  * @brief Creates a dinamically allocated GameWorld struct instance.
@@ -53,7 +54,6 @@ GameWorld *createGameWorld(void){
         .cor = WHITE,
         .vida = 3,
         .pontuacao = 0
-        .estado = 0;
     };
 
     gw->bolinha = (Bolinha){

@@ -27,8 +27,8 @@
  */
 void resolverColisaoBolinhaAlvos(Bolinha *b, Jogador *j, Alvo *alvos, int quantidade);
 void resolverColisaoBolaJogador( Bolinha *b, Jogador *j );
-void desenharPontuacao(int pontuacao);
 void desenharVidaPlacar(Jogador *j);
+void jogoPausado(Bolinha *b);
 int pontuacao = 0;
 
 /**
@@ -53,6 +53,7 @@ GameWorld *createGameWorld(void){
         .cor = WHITE,
         .vida = 3,
         .pontuacao = 0
+        .estado = 0;
     };
 
     gw->bolinha = (Bolinha){
@@ -127,11 +128,15 @@ void destroyGameWorld(GameWorld *gw){
  * @brief Reads user input and updates the state of the game.
  */
 void updateGameWorld(GameWorld *gw, float delta){
-    entradaJogador( &gw->jogador );
-    atualizarJogador( &gw->jogador, delta );
-    atualizarBolinha( &gw->bolinha, delta );
-    resolverColisaoBolinhaAlvos( &gw->bolinha, &gw->jogador, gw->alvos, gw->lin * gw->col );
-    resolverColisaoBolaJogador( &gw->bolinha, &gw->jogador );
+    if (estado == 0){
+        jogoPausado(&gw->bolinha);
+    }else{
+        entradaJogador( &gw->jogador );
+        atualizarJogador( &gw->jogador, delta );
+        atualizarBolinha( &gw->bolinha, gw->jogador, delta );
+        resolverColisaoBolinhaAlvos( &gw->bolinha, &gw->jogador, gw->alvos, gw->lin * gw->col );
+        resolverColisaoBolaJogador( &gw->bolinha, &gw->jogador );
+    }
     
 }
 
@@ -208,15 +213,28 @@ void desenharVidaPlacar(Jogador *j){
 
     const char *textoVida = TextFormat("Vida: %d", j->vida);
     const char *textoPontuacao = TextFormat("Pontuacao: %d", j->pontuacao);
-    int t = MeasureText(textoPontuacao,tamanhoFonte);
-    DrawText(textoPontuacao, GetScreenWidth()-t-10, 20, tamanhoFonte, j->cor);
+
+    DrawText(textoPontuacao, 500, 20, tamanhoFonte, j->cor);
     DrawText(textoVida, 20, 20, tamanhoFonte, j->cor);
 }
 
-void resolverColisaoBolaJogador( Bolinha *b, Jogador *j ) {
+void resolverColisaoBolaJogador( Bola *b, Jogador *j ) {
 
     if ( CheckCollisionCircleRec( b->centro, b->raio, j->ret ) ) {
         b->centro.y = j->ret.y - b->raio;
-        b->vel.y = -b->vel.y;
+        b->vel.y = -b->vel.y
+    }
+}
+
+void jogoPausado(Bolinha *b){
+    if(IsKeyPressed(KEY_LEFT)){
+        b->vel.x = -200;
+        b->vel.y = -200;
+        estado = 1;
+    }
+    if (IsKeyPressed(KEY_RIGHT)){
+        b->vel.x = 200;
+        b->vel.y = -200;
+        estado = 1;
     }
 }

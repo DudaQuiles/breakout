@@ -6,7 +6,7 @@
  * Atualiza a posição da bolinha na tela e resolve a colisão da mesma com as
  * extremidades da janela.
  */
-void atualizarBolinha(Bolinha *bolinha, float delta){
+void atualizarBolinha(Bolinha *bolinha, Jogador *jogador, float delta){
 
     // integração de Euler
     bolinha->centro.x += bolinha->vel.x * delta;
@@ -27,6 +27,7 @@ void atualizarBolinha(Bolinha *bolinha, float delta){
         bolinha->vel.y = -bolinha->vel.y;
     } else if(bolinha->centro.y + bolinha->raio >= GetScreenHeight()){ //Ao invés de rebater, vai resetar o jogo
         pausarJogo(bolinha);
+        j->vida--;
     }
 
 }

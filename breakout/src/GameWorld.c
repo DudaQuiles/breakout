@@ -44,7 +44,7 @@ GameWorld *createGameWorld(void){
     gw->jogador = (Jogador){
         .ret = { 
             GetScreenWidth() / 2 - larguraJogador / 2, 
-            GetScreenHeight() - 3 * alturaJogador, 
+            GetScreenHeight() - 75, 
             larguraJogador, 
             alturaJogador
         },
@@ -128,7 +128,8 @@ void destroyGameWorld(GameWorld *gw){
  * @brief Reads user input and updates the state of the game.
  */
 void updateGameWorld(GameWorld *gw, float delta){
-    if (gw->jogador.vida == 0 || gw->jogador.pontuacao == 60){
+    if (gw->jogador.vida == 0 || gw->jogador.pontuacao == 1000){
+        gw->jogador.estado = 2;
         gameOver(&gw->jogador);
     }else if (gw->jogador.estado == 0){
         jogoPausado(&gw->bolinha,&gw->jogador);
@@ -172,7 +173,8 @@ void resolverColisaoBolinhaAlvos(Bolinha *b, Jogador *j, Alvo *alvos, int quanti
 
             // perde um ponto de vida
             alvo->hp--;
-            j->pontuacao++; 
+            int p = i * gw->col;
+            j->pontuacao = 10 - p; 
 
             // reposicionamento e espelhamento apropriado da velocidade da bolinha
             
@@ -213,11 +215,19 @@ void resolverColisaoBolinhaAlvos(Bolinha *b, Jogador *j, Alvo *alvos, int quanti
 }
 
 void desenharEstado(Jogador *j){
-    if(j->estado == 0 && j->pontuacao != 0){
-        int tamanhoFonte = 20;
-        const char *textoPerdeVida = TextFormat("Aperte as setas para continuar");
-        int t = MeasureText(textoPerdeVida,tamanhoFonte);
-        DrawText(textoPerdeVida, GetScreenWidth()-t-132, GetScreenHeight() / 2, tamanhoFonte, WHITE);
+    if(j->estado == 0 ){
+        if(j->pontuacao != 0){
+            int tamanhoFonte = 20;
+            const char *textoPerdeVida = TextFormat("Aperte as setas para continuar");
+            int t = MeasureText(textoPerdeVida,tamanhoFonte);
+            DrawText(textoPerdeVida, GetScreenWidth()-t-132, GetScreenHeight() / 2, tamanhoFonte, WHITE);
+        }else{
+            int tamanhoFonte = 20;
+            const char *textoComeco = TextFormat("Bem vindo ao Breakout, aperte uma seta para começar");
+            int t = MeasureText(textoComeco,tamanhoFonte);
+            DrawText(textoComeco, GetScreenWidth()-t-132, GetScreenHeight() / 2, tamanhoFonte, WHITE);
+        }
+        
         DrawRectangle(150, GetScreenHeight() / 2 + 100, 100, 100, WHITE);
         DrawRectangle(350, GetScreenHeight() / 2 + 100, 100, 100, WHITE);
         Vector2 posicaoEsquerdaInicial = {170, GetScreenHeight() / 2 + 150};
@@ -227,8 +237,8 @@ void desenharEstado(Jogador *j){
         Vector2 posicaoDireitaCima = {400, GetScreenHeight() / 2 + 120};
         DrawLineEx(posicaoDireitaInicial, posicaoDireitaCima, 6, BLACK);
         Vector2 posicaoEsquerdaBaixo = {200, GetScreenHeight() / 2 + 180};
-        Vector2 posicaoDireitaBaixo = {400, GetScreenHeight() / 2 + 180};
         DrawLineEx(posicaoEsquerdaInicial, posicaoEsquerdaBaixo, 6, BLACK);
+        Vector2 posicaoDireitaBaixo = {400, GetScreenHeight() / 2 + 180};
         DrawLineEx(posicaoDireitaInicial, posicaoDireitaBaixo, 6, BLACK);
     }
 }

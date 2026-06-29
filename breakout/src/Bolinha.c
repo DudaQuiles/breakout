@@ -1,6 +1,6 @@
 #include "raylib/raylib.h"
 #include "Bolinha.h"
-#include "GameWorld.h"
+#include "Jogador.h"
 
 /**
  * Atualiza a posição da bolinha na tela e resolve a colisão da mesma com as

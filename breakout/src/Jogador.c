@@ -60,21 +60,4 @@ void desenharVidaPlacar(Jogador *j){
     DrawText(textoVida, 20, 20, tamanhoFonte, j->cor);
 }
 
-void resolverColisaoBolaJogador( Bolinha *b, Jogador *j ) {
 
-    if ( CheckCollisionCircleRec( b->centro, b->raio, j->ret ) ) {
-        b->centro.y = j->ret.y - b->raio;
-        b->vel.y = -b->vel.y;
-    }
-}
-
-void gameOver(Jogador *j){
-    int tamanhoFonte = 40;
-    int t = MeasureText(textoOver,tamanhoFonte);
-    DrawText("Você perdeu, aperte espaço para tentar de novo", GetScreenWidth()-t-10, GetScreenHeight() / 2, tamanhoFonte, WHITE);
-    if( IsKeyPressed(KEY_SPACE)){
-        j->vida = 3;
-        j->pontuacao = 0;
-        estado = 0;
-    }
-}

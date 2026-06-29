@@ -46,15 +46,3 @@ void desenharBolinha(Bolinha *bolinha) {
     DrawCircleV(bolinha->centro, bolinha->raio, bolinha->cor);
 }
 
-void jogoPausado(Bolinha *b){
-    if(IsKeyPressed(KEY_LEFT)){
-        b->vel.x = -200;
-        b->vel.y = -200;
-        estado = 1;
-    }
-    if (IsKeyPressed(KEY_RIGHT)){
-        b->vel.x = 200;
-        b->vel.y = -200;
-        estado = 1;
-    }
-}

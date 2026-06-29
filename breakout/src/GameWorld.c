@@ -28,6 +28,7 @@
 void resolverColisaoBolinhaAlvos(Bolinha *b, Jogador *j, Alvo *alvos, int quantidade);
 void resolverColisaoBolaJogador( Bolinha *b, Jogador *j );
 void desenharEstado(int estado);
+void jogoPausado(Bolinha *b);
 void gameOver(Jogador *j);
 void gameWin(void);
 int pontuacao = 0;
@@ -131,7 +132,7 @@ void destroyGameWorld(GameWorld *gw){
 void updateGameWorld(GameWorld *gw, float delta){
     if (estado == 0){
         jogoPausado(&gw->bolinha);
-    }else if (&gw->jogador.vida == 0){
+    }else if (gw->jogador.vida == 0){
         gameOver(&gw->jogador);
     }else{
         entradaJogador( &gw->jogador );
@@ -229,5 +230,24 @@ void gameOver(Jogador *j){
         j->pontuacao = 0;
         estado = 0;
 
+    }
+}
+void resolverColisaoBolaJogador( Bolinha *b, Jogador *j ) {
+
+    if ( CheckCollisionCircleRec( b->centro, b->raio, j->ret ) ) {
+        b->centro.y = j->ret.y - b->raio;
+        b->vel.y = -b->vel.y;
+    }
+}
+void jogoPausado(Bolinha *b){
+    if(IsKeyPressed(KEY_LEFT)){
+        b->vel.x = -200;
+        b->vel.y = -200;
+        estado = 1;
+    }
+    if (IsKeyPressed(KEY_RIGHT)){
+        b->vel.x = 200;
+        b->vel.y = -200;
+        estado = 1;
     }
 }

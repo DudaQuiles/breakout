@@ -59,7 +59,7 @@ GameWorld *createGameWorld(void){
     gw->bolinha = (Bolinha){
         .centro = { 
             GetScreenWidth() / 2,
-            gw->jogador.ret.y - gw->jogador.ret.width
+            gw->jogador.ret.y - gw->jogador.ret.height
         },
         .raio = 10,
         .vel = { 200, -200 },
@@ -239,7 +239,7 @@ void desenharEstado(Jogador *j){
             int tamanhoFonte = 20;
             const char *textoComeco = TextFormat("Bem vindo ao Breakout, aperte uma seta para começar");
             int t = MeasureText(textoComeco,tamanhoFonte);
-            DrawText(textoComeco, GetScreenWidth()-t-132, GetScreenHeight() / 2, tamanhoFonte, WHITE);
+            DrawText(textoComeco, GetScreenWidth()-t-20, GetScreenHeight() / 2, tamanhoFonte, WHITE);
         }
         
         DrawRectangle(150, GetScreenHeight() / 2 + 100, 100, 100, WHITE);

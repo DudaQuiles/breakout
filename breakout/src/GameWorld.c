@@ -30,8 +30,6 @@ void resolverColisaoBolaJogador( Bolinha *b, Jogador *j );
 void desenharEstado(Jogador *j);
 void jogoPausado(Bolinha *b, Jogador *j);
 void gameOver(Jogador *j);
-void gameWin(void);
-int pontuacao = 0;
 
 /**
  * @brief Creates a dinamically allocated GameWorld struct instance.
@@ -130,10 +128,10 @@ void destroyGameWorld(GameWorld *gw){
  * @brief Reads user input and updates the state of the game.
  */
 void updateGameWorld(GameWorld *gw, float delta){
-    if (gw->jogador.estado == 0){
-        jogoPausado(&gw->bolinha,&gw->jogador);
-    }else if (gw->jogador.vida == 0){
+    if (&gw->jogador.vida == 0 || &gw->jogador.pontuacao == 60){
         gameOver(&gw->jogador);
+    }else if (&gw->jogador.estado == 0){
+        jogoPausado(&gw->bolinha,&gw->jogador);
     }else{
         entradaJogador( &gw->jogador );
         atualizarJogador( &gw->jogador, delta );

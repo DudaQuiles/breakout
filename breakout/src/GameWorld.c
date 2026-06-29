@@ -46,7 +46,7 @@ GameWorld *createGameWorld(void){
     gw->jogador = (Jogador){
         .ret = { 
             GetScreenWidth() / 2 - larguraJogador / 2, 
-            GetScreenHeight() - 75, 
+            GetScreenHeight() - 65, 
             larguraJogador, 
             alturaJogador
         },
@@ -227,7 +227,7 @@ void resolverColisaoBolaJogador( Bolinha *b, Jogador *j ) {
     }
 }
 void jogoPausado(Bolinha *b, Jogador *j){
-    j->ret.x = GetScreenWidth() / 2 - larguraJogador / 2;
+    j->ret.x = GetScreenWidth() / 2 - j->ret.width / 2;
     if(IsKeyPressed(KEY_LEFT)){
         b->vel.x = -200;
         b->vel.y = -200;

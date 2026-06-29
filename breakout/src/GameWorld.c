@@ -28,7 +28,7 @@
 void resolverColisaoBolinhaAlvos(Bolinha *b, Jogador *j, Alvo *alvos, int quantidade);
 void resolverColisaoBolaJogador( Bolinha *b, Jogador *j );
 void desenharEstado(Jogador *j);
-void jogoPausado(Bolinha *b);
+void jogoPausado(Bolinha *b, Jogador *j);
 void gameOver(Jogador *j);
 void gameWin(void);
 int pontuacao = 0;
@@ -54,7 +54,8 @@ GameWorld *createGameWorld(void){
         .velocidadeAtual = 0,
         .cor = WHITE,
         .vida = 3,
-        .pontuacao = 0
+        .pontuacao = 0,
+        .estado = 0
     };
 
     gw->bolinha = (Bolinha){
@@ -130,7 +131,7 @@ void destroyGameWorld(GameWorld *gw){
  */
 void updateGameWorld(GameWorld *gw, float delta){
     if (gw->jogador.estado == 0){
-        jogoPausado(&gw->bolinha);
+        jogoPausado(&gw->bolinha,&gw->jogador);
     }else if (gw->jogador.vida == 0){
         gameOver(&gw->jogador);
     }else{
@@ -238,7 +239,7 @@ void resolverColisaoBolaJogador( Bolinha *b, Jogador *j ) {
         b->vel.y = -b->vel.y;
     }
 }
-void jogoPausado(Bolinha *b){
+void jogoPausado(Bolinha *b, Jogador *j){
     if(IsKeyPressed(KEY_LEFT)){
         b->vel.x = -200;
         b->vel.y = -200;

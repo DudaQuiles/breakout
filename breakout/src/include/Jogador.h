@@ -15,6 +15,7 @@ typedef struct Jogador{
     Color cor;
     int vida;
     int pontuacao;
+    int estado;
 }Jogador;
 
 void entradaJogador(Jogador *j);

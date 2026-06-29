@@ -30,7 +30,7 @@ void resolverColisaoBolinhaAlvos(Bolinha *b, Jogador *j, Alvo *alvos, int quanti
 void resolverColisaoBolaJogador( Bolinha *b, Jogador *j );
 void desenharEstado(Jogador *j);
 void jogoPausado(Bolinha *b, Jogador *j);
-void gameOver(Jogador *j, Alvo alvos, int lin, int col);
+void gameOver(Jogador *j, Alvo *alvos, int lin, int col);
 void resetarAlvos(Alvo *alvos, int lin, int col);
 
 /**
@@ -68,11 +68,11 @@ GameWorld *createGameWorld(void){
         .cor = WHITE
     };
 
-    &gw->lin = 10;
-    &gw->col = 6;
+    gw->lin = 10;
+    gw->col = 6;
 
     // cria um array de alvos de lin * col (nesse caso, 60 alvos)
-    &gw->alvos = (Alvo*) malloc(sizeof(Alvo) * gw->lin * gw->col);
+    gw->alvos = (Alvo*) malloc(sizeof(Alvo) * gw->lin * gw->col);
 
     Color coresAlvos[] = {
         { 100, 200, 50, 255 },     // { vermelho, verde, azul, alpha }
@@ -94,15 +94,15 @@ GameWorld *createGameWorld(void){
     int xIni = GetScreenWidth() / 2 - larguraTotal / 2;
     int yIni = 150;
 
-    for (int i = 0; i < &gw->lin; i++){
-        for (int j = 0; j < &gw->col; j++){
+    for (int i = 0; i < gw->lin; i++){
+        for (int j = 0; j < gw->col; j++){
 
             // calculo da posição linear de um elemento da grade linhas x colunas
             // dentro do array de alvos
-            int p = i * &gw->col + j;
+            int p = i * gw->col + j;
 
             if (i < 5){
-                &gw->alvos[p] = (Alvo){
+                gw->alvos[p] = (Alvo){
                 .ret = {
                     .x = xIni + j * ( larguraAlvo + espaco ), // cálculo da posição horizontal (depende da coluna atual)
                     .y = yIni + i * ( alturaAlvo + espaco ),  // cálculo da posição vertical (depende da linha atual)
@@ -114,7 +114,7 @@ GameWorld *createGameWorld(void){
                 .pontuacao = 2
                 };
             }else{
-                &gw->alvos[p] = (Alvo){
+                gw->alvos[p] = (Alvo){
                 .ret = {
                     .x = xIni + j * ( larguraAlvo + espaco ), // cálculo da posição horizontal (depende da coluna atual)
                     .y = yIni + i * ( alturaAlvo + espaco ),  // cálculo da posição vertical (depende da linha atual)
@@ -258,7 +258,7 @@ void desenharEstado(Jogador *j){
     }
 }
 
-void gameOver(Jogador *j, Alvo alvos, int lin, int col){
+void gameOver(Jogador *j, Alvo *alvos, int lin, int col){
     j->ret.x = GetScreenWidth() / 2;
     int tamanhoFonte = 20;
     if(j->vida == 0){
@@ -275,7 +275,7 @@ void gameOver(Jogador *j, Alvo alvos, int lin, int col){
         j->vida = 3;
         j->pontuacao = 0;
         j->estado = 0;
-        resetarAlvos(&alvos, lin, col);
+        resetarAlvos(alvos, lin, col);
     }
 }
 void resolverColisaoBolaJogador( Bolinha *b, Jogador *j ) {

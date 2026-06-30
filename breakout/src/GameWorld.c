@@ -144,7 +144,7 @@ void destroyGameWorld(GameWorld *gw){
  * @brief Reads user input and updates the state of the game.
  */
 void updateGameWorld(GameWorld *gw, float delta){
-    if (gw->jogador.vida == 0 || gw->jogador.pontuacao == 90){
+    if (gw->jogador.vida == 0 || gw->jogador.pontuacao == 150){
         gw->jogador.estado = 2; // estado 2: final do jogo
         gameOver(&gw->jogador, gw->alvos, gw->lin, gw->col);
     }else if (gw->jogador.estado == 0){

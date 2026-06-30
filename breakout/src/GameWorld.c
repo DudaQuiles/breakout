@@ -75,16 +75,16 @@ GameWorld *createGameWorld(void){
     gw->alvos = (Alvo*) malloc(sizeof(Alvo) * gw->lin * gw->col);
 
     Color coresAlvos[] = {
-        { 100, 200, 50, 255 },     // { vermelho, verde, azul, alpha }
-        GetColor( 0x0099CCFF ), // GetColor( cor em hexadecimal )
-        YELLOW,                   // constante para cor
-        ORANGE,
-        RED,
-        PINK,
-        PURPLE,
-        BLUE,
-        GREEN,
-        DARKGREEN
+        { 255, 250, 150, 255 },    
+        { 255, 127,  80, 255 },   
+        { 255,  99,  99, 255 },  
+        { 255, 145, 200, 255 },    
+        { 135, 206, 250, 255 },
+        { 102, 255, 102, 255 },
+        { 200, 238, 144, 255 },
+        { 255, 250, 150, 255 },
+        { 255, 127,  80, 255 },
+        { 255,  99,  99, 255 },
     };
 
     int larguraAlvo = 80;
@@ -259,7 +259,7 @@ void desenharEstado(Jogador *j){
 }
 
 void gameOver(Jogador *j, Alvo *alvos, int lin, int col){
-    j->ret.x = GetScreenWidth() / 2;
+    j->ret.x = GetScreenWidth() / 2 - 75;
     int tamanhoFonte = 20;
     if(j->vida == 0){
         const char *textoPerdeu = TextFormat("Você perdeu, aperte espaço para tentar de novo:");

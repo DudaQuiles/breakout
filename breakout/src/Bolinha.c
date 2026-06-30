@@ -28,12 +28,12 @@ void atualizarBolinha(Bolinha *bolinha, Jogador *j, float delta){
     } else if(bolinha->centro.y + bolinha->raio >= GetScreenHeight()){ //Ao invés de rebater, vai resetar o jogo
         pausarJogo(bolinha);
         j->vida--;
-        j->estado = 0;
+        j->estado = 0; // 0: começo do jogo ou perdeu vida, 1: jogo rolando, 2: final do jogo
     }
 
 }
 
-void pausarJogo(Bolinha *bolinha){
+void pausarJogo(Bolinha *bolinha){ // reseta a bolinha
     bolinha->vel.x = 0;
     bolinha->vel.y = 0;
     bolinha->centro.x = GetScreenWidth() / 2;

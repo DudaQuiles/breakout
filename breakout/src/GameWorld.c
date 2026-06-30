@@ -147,6 +147,7 @@ void updateGameWorld(GameWorld *gw, float delta){
     if (gw->jogador.vida == 0 || gw->jogador.pontuacao == 150){
         gw->jogador.estado = 2; // estado 2: final do jogo
         gameOver(&gw->jogador, gw->alvos, gw->lin, gw->col);
+        pausarJogo(&gw->bolinha);
     }else if (gw->jogador.estado == 0){
         jogoPausado(&gw->bolinha,&gw->jogador);
     }else{
@@ -224,6 +225,7 @@ void gameOver(Jogador *j, Alvo *alvos, int lin, int col){
     }
 
     if( IsKeyPressed(KEY_SPACE)){
+
         j->vida = 3;
         j->pontuacao = 0;
         j->estado = 0;
@@ -275,6 +277,9 @@ void resolverColisaoBolinhaAlvos(Bolinha *b, Jogador *j, Alvo *alvos, int quanti
 
         // verifica se ainda tem vida (hp > 0) e se a bolinha colidiu com seu retângulo
         if (alvo->hp > 0 && CheckCollisionCircleRec(b->centro, b->raio, alvo->ret)){
+
+            b->vel.x *= 1.01;
+            b->vel.y*= 1.01;
 
             // perde um ponto de vida
             alvo->hp--;
